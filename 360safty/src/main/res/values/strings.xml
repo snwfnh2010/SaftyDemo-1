@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">360Safty</string>
+    <string name="gruard">卫士</string>
+    <string name="toolkid">工具箱</string>
+    <string name="service">安心服务</string>
+    <string name="me">我</string>
+   <string name="main_name"> 360卫士</string>
+</resources>

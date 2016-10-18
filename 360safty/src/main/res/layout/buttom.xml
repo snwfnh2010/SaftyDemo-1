@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:background="@color/bottom_Background"
+              android:layout_width="match_parent"
+              android:layout_height="55dp">
+
+    <LinearLayout
+        android:id="@+id/tab_guard"
+        style="@style/LLStyle">
+        <TextView
+            android:id="@+id/tab_guard_tv"
+            style="@style/Buttom_top"
+
+            android:background="@mipmap/jh"/>
+        <TextView
+            android:textColor="@color/text_nomal"
+            android:id="@+id/guard_tv"
+           style="@style/Buttom_down"
+            android:text="@string/gruard"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tab_tool"
+        style="@style/LLStyle">
+        <TextView
+            android:id="@+id/tab_tool_tv"
+            style="@style/Buttom_top"
+            android:background="@mipmap/oh"/>
+        <TextView
+            android:id="@+id/tool_tv"
+            style="@style/Buttom_down"
+            android:text="@string/toolkid"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tab_service"
+        style="@style/LLStyle">
+        <TextView
+            android:id="@+id/tab_service_tv"
+            style="@style/Buttom_top"
+            android:background="@mipmap/lh"/>
+        <TextView
+            android:id="@+id/service_tv"
+            style="@style/Buttom_down"
+            android:text="@string/service"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tab_me"
+        style="@style/LLStyle">
+        <TextView
+            android:id="@+id/tab_me_tv"
+            style="@style/Buttom_top"
+            android:background="@mipmap/fh"/>
+        <TextView
+            android:id="@+id/me_tv"
+            style="@style/Buttom_down"
+            android:text="@string/me"/>
+    </LinearLayout>
+
+
+</LinearLayout>
