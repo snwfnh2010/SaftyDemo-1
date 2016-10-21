@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private PagerAdapter mPagerAdapter;
 
-    private int currentPager=0;
+
 
 
 
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
-
+      mViewPager.setOffscreenPageLimit(4);
 
     }
 

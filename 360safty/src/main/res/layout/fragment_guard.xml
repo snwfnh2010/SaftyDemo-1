@@ -3,10 +3,50 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <TextView
-        android:gravity="center"
-        android:text="guard"
+    <RelativeLayout
+        android:background="@color/text_nomal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="230dp">
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/iv_animation"
+            android:src="@mipmap/a"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/tv_score"
+            android:textSize="50dp"
+
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignLeft="@+id/textView"
+            android:layout_alignStart="@+id/textView"/>
+        <TextView
+           android:onClick="onClick"
+            android:gravity="center"
+            android:background="@mipmap/lc"
+            android:text="@string/optimize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/iv_animation"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="42dp"
+            android:id="@+id/textView"/>
+    </RelativeLayout>
+<GridView
+
+    android:background="@color/Background"
+    android:horizontalSpacing="1dp"
+    android:verticalSpacing="1dp"
+   android:gravity="center"
+    android:numColumns="2"
+    android:id="@+id/grid_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+</GridView>
 
 </LinearLayout>

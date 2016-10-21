@@ -4,7 +4,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="Background">#f9f9f9</color>
     <color name="bottom_Background">#f5f5f5</color>
     <color name="bottomDown">#a7a7a7</color>
     <color name="text_nomal">#0BBB09</color>
+    <color name="white">#ffffff</color>
+    <color name="red">#ff4043</color>
 </resources>
