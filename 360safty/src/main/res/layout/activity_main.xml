@@ -15,5 +15,6 @@
 
 
     </android.support.v4.view.ViewPager>
-    <include layout="@layout/buttom"/>
+
+   <include layout="@layout/buttom"/>
 </LinearLayout>

@@ -16,6 +16,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.example.a360safty.R;
+import com.example.a360safty.view.activity.AppManageActivity;
 import com.example.a360safty.view.activity.CleanupActivity;
 import com.example.a360safty.view.activity.InterceptActivity;
 import com.example.a360safty.view.adapter.GridAdapter;
@@ -53,7 +54,7 @@ public class BodyGuardFragment extends Fragment implements View.OnClickListener,
         mContext = this.getActivity();
 
         icon = new int[]{R.mipmap.ug, R.mipmap.tg, R.mipmap.qg, R.mipmap.yg,};
-        iconName = new String[]{"清理加速", "骚扰拦截", "有更新啦", "手机杀毒"};
+        iconName = new String[]{"清理加速", "骚扰拦截", "软件管理", "手机杀毒"};
         mGridAdapter=new GridAdapter(mContext,icon,iconName);
         mGridView.setAdapter(mGridAdapter);
 
@@ -101,6 +102,8 @@ public class BodyGuardFragment extends Fragment implements View.OnClickListener,
                 startActivity(intent);
                 break;
             case 2:
+                intent=new Intent(mContext,AppManageActivity.class);
+                startActivity(intent);
                 break;
             case 3:
                 break;

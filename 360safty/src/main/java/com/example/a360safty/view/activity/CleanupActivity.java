@@ -3,201 +3,98 @@ package com.example.a360safty.view.activity;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.text.format.Formatter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a360safty.R;
-import com.example.a360safty.model.TaskInfo;
-import com.example.a360safty.tools.TaskUtils;
-import com.example.a360safty.tools.TextFormat;
+import com.example.a360safty.model.ConstantValue;
+import com.example.a360safty.model.ProcessInfo;
+import com.example.a360safty.model.ProcessInfoProvider;
+import com.example.a360safty.model.SpUtil;
+import com.example.a360safty.tools.PrefUtils;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by snwfnh on 2016/10/20.
  */
-public class CleanupActivity extends Activity  {
-    protected static final int SUCCESS_GETTASKINFO = 0;
-    private TextView tv_task_manager_task_count;
-    private TextView tv_task_manager_task_memory;
-    private ListView lv_taskmanage;
-    private RelativeLayout rl_loading;
-    private ProgressBar pb;
-    private List<TaskInfo> taskInfos;
-    private TaskManagerAdapter mAdapter;
-    private static final int ALL_SELECTED_ID = 1;
-    private static final int CANCEL_SELECTED_ID = 2;
-    private ActivityManager am;
+public class CleanupActivity extends Activity implements View.OnClickListener {
+    private TextView tv_process_count,tv_memory_info,tv_des;
+    private ListView lv_process_list;
+    private TextView tv_select_all,tv_select_reverse,tv_clear,tv_setting;
+    private int mProcessCount;
+    private List<ProcessInfo> mProcessInfoList;
+
+    private ArrayList<ProcessInfo> mSystemList;
+    private ArrayList<ProcessInfo> mCustomerList;
+    private MyAdapter mAdapter;
+
+    private ProcessInfo mProcessInfo;
+
     private Handler mHandler = new Handler(){
         public void handleMessage(android.os.Message msg) {
-            switch (msg.what) {
-                case SUCCESS_GETTASKINFO:
-                    long total = TaskUtils.getAvailMem(CleanupActivity.this);
-                    for(TaskInfo info : taskInfos){
-                        total += info.getTask_memory() * 1024;
-                    }
-                    //可用内存
-                    String availMemStr = TextFormat.formatByte(TaskUtils.getAvailMem(CleanupActivity.this));
-                    //总内存
-                    String totalMemStr = TextFormat.formatByte(total);
-                    tv_task_manager_task_memory.setText("可用/总内存:"+availMemStr+"/"+totalMemStr);
+            mAdapter = new MyAdapter();
+            lv_process_list.setAdapter(mAdapter);
 
-                    mAdapter = new TaskManagerAdapter();
-                    mAdapter.setInfos(taskInfos);
-                    rl_loading.setVisibility(View.GONE);
-                    lv_taskmanage.setAdapter(mAdapter);
-                    break;
-
-                default:
-                    break;
+            if(tv_des!=null && mCustomerList!=null){
+                tv_des.setText("用户应用("+mCustomerList.size()+")");
             }
         };
     };
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.task_manager);
-        tv_task_manager_task_count  = (TextView) findViewById(R.id.tv_task_manager_task_count);
-        tv_task_manager_task_memory = (TextView) findViewById(R.id.tv_task_manager_task_memory);
-        lv_taskmanage = (ListView) findViewById(R.id.lv_taskmanage);
-        rl_loading = (RelativeLayout) findViewById(R.id.rl_loading);
-        pb = (ProgressBar) findViewById(R.id.pb);
-        //获取ActivityManager系统服务
-        int size = TaskUtils.getRunningAppProcessInfoSize(this);
-        tv_task_manager_task_count.setText("进程数:"+size);
+    private long mAvailSpace;
+    private String mStrTotalSpace=null;
 
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                taskInfos = TaskUtils.getTaskInfos(getApplicationContext());
-                Message msg = new Message();
-                msg.what = SUCCESS_GETTASKINFO;
-                mHandler.sendMessage(msg);
-            }
-        }).start();
-        lv_taskmanage.setOnItemClickListener(new MyOnItemClickListener());
-    }
-
-    private class MyOnItemClickListener implements AdapterView.OnItemClickListener {
+    class MyAdapter extends BaseAdapter{
 
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
-            Log.i("i", "position ====== " +position);
-            CheckBox checkBox = ((ViewHolder) view.getTag()).cb_task_manager_selected;
-            TaskInfo taskInfo = (TaskInfo) mAdapter.getItem(position);
-            //如果是自身应用程序，则直接不执行下面的操作
-            if(taskInfo.getPackageName().equals(getPackageName())){
-                return;
-            }
-            if(taskInfo.isChecked()){
-                taskInfo.setChecked(false);
-                checkBox.setChecked(false);
+        public int getViewTypeCount() {
+            return super.getViewTypeCount()+1;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            if(position == 0 || position == mCustomerList.size()+1){
+                       return 0;
             }else{
-                taskInfo.setChecked(true);
-                checkBox.setChecked(true);
+
+                return 1;
             }
         }
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // TODO Auto-generated method stub
-        menu.add(0, ALL_SELECTED_ID, 0, "全选");
-        menu.add(0, CANCEL_SELECTED_ID, 0, "取消选择");
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // TODO Auto-generated method stub
-        int id = item.getItemId();
-        switch (id) {
-            case ALL_SELECTED_ID:
-                //将每个条目设置为选中状态
-                for(TaskInfo taskInfo : taskInfos){
-                    //不修改自身应用程序的状态
-                    if(!taskInfo.getPackageName().equals(getPackageName())){
-                        taskInfo.setChecked(true);
-                    }
-                }
-                //刷新列表
-                mAdapter.notifyDataSetChanged();
-                break;
-            case CANCEL_SELECTED_ID:
-                //将每个列表设置为不选中状态
-                for(TaskInfo taskInfo : taskInfos){
-                    taskInfo.setChecked(false);
-                }
-                //刷新列表
-                mAdapter.notifyDataSetChanged();
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void kill_process(View v){
-        List<TaskInfo> newTaskInfos = new ArrayList<TaskInfo>();
-        for(TaskInfo taskInfo : taskInfos){
-            if(taskInfo.isChecked()){
-                //杀死选中的进程
-                am.killBackgroundProcesses(taskInfo.getPackageName());
-            }else{
-                newTaskInfos.add(taskInfo);
-            }
-        }
-        mAdapter.setInfos(newTaskInfos);
-        mAdapter.notifyDataSetChanged();
-    }
-    /**
-     * 自定义适配器
-     * @author liuyazhuang
-     *
-     */
-    private class TaskManagerAdapter extends BaseAdapter {
-        private LayoutInflater mInflater;
-        private List<TaskInfo> infos;
-
-        public void setInfos(List<TaskInfo> infos) {
-            this.infos = infos;
-        }
-
-        public TaskManagerAdapter(){
-            mInflater = getLayoutInflater();
-        }
         @Override
         public int getCount() {
-            return infos.size();
+            if(SpUtil.getBoolean(getApplicationContext(), ConstantValue.IS_SYSTEM_VISABLE, false)){
+                return mCustomerList.size()+mSystemList.size()+2;
+            }else{
+                return mCustomerList.size()+1;
+            }
         }
 
         @Override
-        public Object getItem(int position) {
-            return infos.get(position);
+        public ProcessInfo getItem(int position) {
+            if(position == 0 || position == mCustomerList.size()+1){
+                return null;
+            }else{
+                if(position<mCustomerList.size()+1){
+                    return mCustomerList.get(position-1);
+                }else{
+                    return mSystemList.get(position - mCustomerList.size()-2);
+                }
+            }
         }
 
         @Override
@@ -207,50 +104,285 @@ public class CleanupActivity extends Activity  {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View view = null;
-            ViewHolder holder = null;
-            if(convertView != null){
-                view = convertView;
-                holder = (ViewHolder) view.getTag();
-            }else{
-                view = mInflater.inflate(R.layout.task_manager_item, null);
-                holder = new ViewHolder();
-                holder.iv_task_manager_icon = (ImageView) view.findViewById(R.id.iv_task_manager_icon);
-                holder.iv_task_manager_name = (TextView) view.findViewById(R.id.tv_task_manager_name);
-                holder.iv_task_manager_memory = (TextView) view.findViewById(R.id.tv_task_manager_memory);
-                //获取到UI上的CheckBox控件
-                holder.cb_task_manager_selected = (CheckBox) view.findViewById(R.id.cb_task_manager_selected);
-                view.setTag(holder);
-            }
-            TaskInfo taskInfo = infos.get(position);
-            holder.iv_task_manager_icon.setImageDrawable(taskInfo.getTask_icon());
-            holder.iv_task_manager_memory.setText("占用的内存:"+TextFormat.formatByte(taskInfo.getTask_memory()*1024));
-            holder.iv_task_manager_name.setText(taskInfo.getTask_name());
+            int type = getItemViewType(position);
 
-            String packageName = taskInfo.getPackageName();
-            //应用程序是当前运行的程序
-            if(packageName.equals(getPackageName())){
-                holder.cb_task_manager_selected.setVisibility(View.GONE);
+            if(type == 0){
+                ViewTitleHolder holder = null;
+                if(convertView == null){
+                    convertView = View.inflate(getApplicationContext(), R.layout.listview_app_item_title, null);
+                    holder = new ViewTitleHolder();
+                    holder.tv_title = (TextView)convertView.findViewById(R.id.tv_title);
+                    convertView.setTag(holder);
+                }else{
+                    holder = (ViewTitleHolder) convertView.getTag();
+                }
+                if(position == 0){
+                    holder.tv_title.setText("用户进程("+mCustomerList.size()+")");
+                }else{
+                    holder.tv_title.setText("系统进程("+mSystemList.size()+")");
+                }
+                return convertView;
             }else{
-                holder.cb_task_manager_selected.setVisibility(View.VISIBLE);
+
+                ViewHolder holder = null;
+                if(convertView == null){
+                    convertView = View.inflate(getApplicationContext(), R.layout.list_item_process, null);
+                    holder = new ViewHolder();
+                    holder.iv_icon = (ImageView)convertView.findViewById(R.id.iv_icon);
+                    holder.tv_name = (TextView)convertView.findViewById(R.id.tv_name);
+                    holder.tv_memory_info = (TextView) convertView.findViewById(R.id.tv_memory_info);
+                    holder.cb_box = (CheckBox) convertView.findViewById(R.id.cb_box);
+                    convertView.setTag(holder);
+                }else{
+                    holder = (ViewHolder) convertView.getTag();
+                }
+                holder.iv_icon.setBackgroundDrawable(getItem(position).drawable);
+                holder.tv_name.setText(getItem(position).name);
+                String strSize = Formatter.formatFileSize(getApplicationContext(), getItem(position).memSize);
+                holder.tv_memory_info.setText(strSize);
+
+                if(getItem(position).packageName.equals(getPackageName())){
+                    holder.cb_box.setVisibility(View.GONE);
+                }else{
+                    holder.cb_box.setVisibility(View.VISIBLE);
+                }
+
+                holder.cb_box.setChecked(getItem(position).isCheck);
+
+                return convertView;
             }
-            //获取条目的选中状态
-            boolean isChecked = taskInfo.isChecked();
-            if(isChecked){
-                holder.cb_task_manager_selected.setChecked(true);
-            }else{
-                holder.cb_task_manager_selected.setChecked(false);
-            }
-            return view;
         }
     }
 
     static class ViewHolder{
-        ImageView iv_task_manager_icon;
-        TextView iv_task_manager_name;
-        TextView iv_task_manager_memory;
-        CheckBox cb_task_manager_selected;
+        ImageView iv_icon;
+        TextView tv_name;
+        TextView tv_memory_info;
+        CheckBox cb_box;
     }
 
+    static class ViewTitleHolder{
+        TextView tv_title;
+    }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_clean);
+        init();
+        initTitleData();
+        initListData();
+
+        initView();
+
+
+
+    }
+
+    private void init() {
+        mSystemList=new ArrayList<>();
+        mCustomerList=new ArrayList<>();
+
+    }
+
+    private void initListData() {
+        getData();
+    }
+
+    private void getData() {
+        new Thread(){
+            public void run() {
+                mProcessInfoList = ProcessInfoProvider.getProcessInfo(getApplicationContext());
+             //   mSystemList = new ArrayList<ProcessInfo>();
+                //mCustomerList = new ArrayList<ProcessInfo>();
+
+                for (ProcessInfo info : mProcessInfoList) {
+                    if(info.isSystem){
+                        mSystemList.add(info);
+                    }else{
+                        mCustomerList.add(info);
+                    }
+                }
+                mHandler.sendEmptyMessage(0);
+            };
+        }.start();
+    }
+
+    private void initTitleData() {
+        mProcessCount = ProcessInfoProvider.getProcessCount(this);
+//       tv_process_count.setText("进程总数:"+mProcessCount);
+
+        mAvailSpace = ProcessInfoProvider.getAvailSpace(this);
+        String strAvailSpace = Formatter.formatFileSize(this, mAvailSpace);
+
+        long totalSpace = ProcessInfoProvider.getTotalSpace(this);
+        mStrTotalSpace = Formatter.formatFileSize(this, totalSpace);
+
+//       tv_memory_info.setText("剩余/总共:"+strAvailSpace+"/"+mStrTotalSpace);
+    }
+
+    private void initView() {
+        tv_process_count = (TextView) findViewById(R.id.tv_process_count);
+        tv_memory_info = (TextView) findViewById(R.id.tv_memory_info);
+
+        tv_des = (TextView) findViewById(R.id.tv_des);
+
+        lv_process_list = (ListView) findViewById(R.id.lv_list_process);
+
+        tv_select_all = (TextView) findViewById(R.id.tv_select_all);
+        tv_select_reverse = (TextView) findViewById(R.id.tv_select_reverse);
+        tv_clear = (TextView)  findViewById(R.id.tv_clear);
+        tv_setting = (TextView) findViewById(R.id.tv_setting);
+
+        tv_select_all.setOnClickListener(this);
+        tv_select_reverse.setOnClickListener(this);
+        tv_clear.setOnClickListener(this);
+        tv_setting.setOnClickListener(this);
+
+        lv_process_list.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                if(mCustomerList!=null && mSystemList!=null){
+                    if(firstVisibleItem>=mCustomerList.size()+1){
+                        tv_des.setText("系统进程("+mSystemList.size()+")");
+                    }else{
+//                        tv_des.setText("用户进程("+mCustomerList.size()+")");
+                    }
+                }
+
+            }
+        });
+
+        lv_process_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                if(position == 0 || position == mCustomerList.size()+1){
+                    return;
+                }else{
+                    if(position<mCustomerList.size()+1){
+                        mProcessInfo = mCustomerList.get(position-1);
+                    }else{
+                        mProcessInfo = mSystemList.get(position - mCustomerList.size()-2);
+                    }
+                    if(mProcessInfo!=null){
+                        if(!mProcessInfo.packageName.equals(getPackageName())){
+                            mProcessInfo.isCheck = !mProcessInfo.isCheck;
+                            CheckBox cb_box = (CheckBox) view.findViewById(R.id.cb_box);
+                            cb_box.setChecked(mProcessInfo.isCheck);
+                        }
+                    }
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_process_title:
+                finish();
+                break;
+            case R.id.tv_select_all:
+                selectAll();
+                break;
+            case R.id.tv_select_reverse:
+                selectReverse();
+                break;
+            case R.id.tv_clear:
+                clearAll();
+                break;
+            case R.id.tv_setting:
+                setting();
+                break;
+        }
+    }
+
+    private void setting() {
+        Intent intent = new Intent(this, ProcessSettingActivity.class);
+        startActivityForResult(intent, 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(mAdapter!=null){
+            mAdapter.notifyDataSetChanged();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void clearAll() {
+        List<ProcessInfo> killProcessList = new ArrayList<ProcessInfo>();
+        for(ProcessInfo processInfo:mCustomerList){
+            if(processInfo.getPackageName().equals(getPackageName())){
+                continue;
+            }
+            if(processInfo.isCheck){
+                killProcessList.add(processInfo);
+            }
+        }
+
+        for(ProcessInfo processInfo:mSystemList){
+            if(processInfo.isCheck){
+                killProcessList.add(processInfo);
+            }
+        }
+
+        long totalReleaseSpace = 0;
+        for (ProcessInfo processInfo : killProcessList) {
+            if(mCustomerList.contains(processInfo)){
+                mCustomerList.remove(processInfo);
+            }
+
+            if(mSystemList.contains(processInfo)){
+                mSystemList.remove(processInfo);
+            }
+            ProcessInfoProvider.killProcess(this,processInfo);
+            totalReleaseSpace += processInfo.memSize;
+        }
+        if(mAdapter!=null){
+            mAdapter.notifyDataSetChanged();
+        }
+        mProcessCount -= killProcessList.size();
+        mAvailSpace += totalReleaseSpace;
+        tv_process_count.setText("进程总数:"+mProcessCount);
+        tv_memory_info.setText("剩余/总共"+Formatter.formatFileSize(this, mAvailSpace)+"/"+mStrTotalSpace);
+        String totalRelease = Formatter.formatFileSize(this, totalReleaseSpace);
+        Toast.makeText(CleanupActivity.this,  String.format("杀死了%d进程,释放了%s空间", killProcessList.size(),totalRelease), Toast.LENGTH_SHORT).show();
+    }
+
+    private void selectReverse() {
+        for(ProcessInfo processInfo:mCustomerList){
+            if(processInfo.getPackageName().equals(getPackageName())){
+                continue;
+            }
+            processInfo.isCheck = !processInfo.isCheck;
+        }
+        for(ProcessInfo processInfo:mSystemList){
+            processInfo.isCheck = !processInfo.isCheck;
+        }
+        if(mAdapter!=null){
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void selectAll() {
+        for(ProcessInfo processInfo:mCustomerList){
+            if(processInfo.getPackageName().equals(getPackageName())){
+                continue;
+            }
+            processInfo.isCheck = true;
+        }
+        for(ProcessInfo processInfo:mSystemList){
+            processInfo.isCheck = true;
+        }
+        if(mAdapter!=null){
+            mAdapter.notifyDataSetChanged();
+        }
+    }
 }

@@ -44,8 +44,11 @@ public class ToolKitFragment extends Fragment implements GridView.OnItemClickLis
        View view=inflater.inflate(R.layout.fragment_toolkit,container,false);
         intiView(view);
         initData();
+
         return view;
     }
+
+
 
     private void initData() {
         mContext=this.getActivity();
@@ -53,6 +56,7 @@ public class ToolKitFragment extends Fragment implements GridView.OnItemClickLis
         iconName = new String[]{"智能锁屏", "流量监控", "支付保镖", "程度锁","手机备份", "免费WiFi", "防广告骚扰", "更多工具"," "};
         mGridAdapter=new GridAdapter(mContext,icon,iconName);
         mGridView.setAdapter(mGridAdapter);
+
 
     }
 
@@ -73,6 +77,7 @@ public class ToolKitFragment extends Fragment implements GridView.OnItemClickLis
                 break;
             case 3:
                 showDialog();
+
                 break;
             case 4:
                 break;

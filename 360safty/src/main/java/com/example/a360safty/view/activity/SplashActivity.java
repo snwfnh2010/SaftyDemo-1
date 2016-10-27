@@ -1,26 +1,38 @@
 package com.example.a360safty.view.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.a360safty.MainActivity;
 import com.example.a360safty.R;
+import com.example.a360safty.tools.DBCopyUtil;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by snwfnh on 2016/10/17.
  */
-public class SplashActivity  extends AppCompatActivity implements View.OnClickListener {
+public class SplashActivity  extends Activity implements View.OnClickListener {
+    private static final String TAG = "SplashActivity";
+    private boolean isFirst;
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
     private static final int SKIP_TIME = 1;
     private TextView mTextView;
-    private Button mButton;
     private int mCount=3;
     private Context mContext;
     private Handler mHandler=new Handler(){
@@ -31,8 +43,7 @@ public class SplashActivity  extends AppCompatActivity implements View.OnClickLi
             switch (msg.what){
                 case SKIP_TIME:
                     if(result==0){
-                        startActivity(new Intent(mContext, MainActivity.class));
-                       SplashActivity.this.finish();
+                        gotoActivity(isFirst);
                     }
                     break;
                 default:
@@ -48,7 +59,17 @@ public class SplashActivity  extends AppCompatActivity implements View.OnClickLi
         mContext=this;
         setView();
         initView();
+        initDB();
+
     }
+
+    private void initDB() {
+      DBCopyUtil.copyDataBaseFromAssets(mContext,"address.db");
+
+
+    }
+
+
 
     @Override
     protected void onResume() {
@@ -78,12 +99,28 @@ public class SplashActivity  extends AppCompatActivity implements View.OnClickLi
         }.start();
     }
 
-    private void initView() {
-        mTextView= (TextView) findViewById(R.id.tv_skip);
-        mButton= (Button) findViewById(R.id.btn_splash);
+    private void gotoActivity(boolean isFirst){
+        if (isFirst){
+            mEditor.putBoolean("isFirst",false);
+            mEditor.commit();
+            Intent intent=new Intent(SplashActivity.this,GuideActivity.class);
+            startActivity(intent);
+            finish();
+        }else {
+            Intent intent=new Intent(SplashActivity.this,MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
 
+    private void initView() {
+        isFirst=false;
+        mSharedPreferences=getSharedPreferences("SplashActivity",0);
+        mEditor=mSharedPreferences.edit();
+        isFirst=mSharedPreferences.getBoolean("isFirst",true);
+        mTextView= (TextView) findViewById(R.id.tv_skip);
         mTextView.setOnClickListener(this);
-        mButton.setOnClickListener(this);
+
     }
 
     private void setView() {
@@ -93,14 +130,9 @@ public class SplashActivity  extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btn_splash:
-
-
-                break;
             case R.id.tv_skip:
                 mCount=0;
-                startActivity(new Intent(mContext, MainActivity.class));
-                SplashActivity.this.finish();
+               gotoActivity(isFirst);
                 break;
         }
 

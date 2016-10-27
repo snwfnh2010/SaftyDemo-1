@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+    <ImageView
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="16dp"
+        android:id="@+id/iv_icon"
+        android:background="@drawable/ic_launcher"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        />
+
+    <TextView
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/tv_name"
+        android:text="应用名称"
+        android:textSize="18sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/iv_icon"
+        android:layout_toEndOf="@+id/iv_icon"/>
+
+    <ImageView
+        android:layout_marginRight="10dp"
+        android:id="@+id/iv_lock"
+        android:background="@drawable/ic_launcher"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignTop="@+id/tv_name"
+        android:layout_alignRight="@+id/view"
+        android:layout_alignEnd="@+id/view"/>
+
+
+
+
+
+
+
+    <View
+        android:layout_toRightOf="@id/iv_icon"
+        android:layout_below="@id/iv_icon"
+        android:background="@color/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/view"/>
+
+
+
+</RelativeLayout>

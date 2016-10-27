@@ -13,6 +13,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
+
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -27,18 +30,24 @@
         android:label="@string/main_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.activity.SplashActivity">
+        <activity android:name=".view.activity.SplashActivity" android:theme="@style/NoTitle_FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".view.activity.GuideActivity" android:theme="@style/NoTitle_FullScreen"/>
         <activity android:name=".MainActivity"/>
         <activity android:name=".view.activity.CleanupActivity"/>
         <activity android:name=".view.activity.InterceptActivity" android:theme="@style/NoTitle">
     </activity>
         <activity android:name=".view.activity.SetupOverActivity"/>
+        <activity android:name=".view.activity.AppManageActivity"/>
+        <activity android:name=".view.activity.SearchActivity" android:theme="@style/NoTitle"/>
+        <activity android:name=".view.activity.PhoneAddressActivity" android:theme="@style/NoTitle"/>
+        <activity android:name=".view.activity.EnterPsdActivity" android:theme="@style/NoTitle"/>
+        <service android:name=".service.WatchDogService"/>
     </application>
 
 </manifest>

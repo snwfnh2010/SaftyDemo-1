@@ -1,1 +1,1 @@
-include ':360safty'
+include ':360safty', ':myapplication', ':firstapplication', ':secondapplication', ':thirdapplication', ':fourapplication'

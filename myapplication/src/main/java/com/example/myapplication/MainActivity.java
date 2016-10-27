@@ -1,28 +1,29 @@
 package com.example.myapplication;
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
-
-    private Fragment fragment1;
-    private Fragment fragment2;
+public class MainActivity extends FragmentActivity {
+    private FragmentA mFragmentA;
+    private FragmentB mFragmentB;
+    private FragmentManager mManager;
+    private SetSelectedCityListener mListener=new SetSelectedCityListener() {
+        @Override
+        public void selectedCity(String city) {
+            mFragmentB.setText(city);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setView();
-    }
-
-    private void setView() {
         setContentView(R.layout.activity_main);
-    }
-
-    private void initView() {
-        fragment1=new FirstFragment();
-        fragment2=new SecondFragment();
+        mManager=getSupportFragmentManager();
+        mFragmentA= (FragmentA) mManager.findFragmentById(R.id.fragmentA);
+        mFragmentA.setListener(mListener);
+        mFragmentB= (FragmentB) mManager.findFragmentById(R.id.fragmentB);
 
     }
 }

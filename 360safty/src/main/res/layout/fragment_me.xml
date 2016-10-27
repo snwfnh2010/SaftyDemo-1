@@ -1,12 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
+
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <TextView
-        android:gravity="center"
-        android:text="me"
+       android:textSize="25dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="设置中心"
+
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"/>
+    <View
+        android:background="@color/bottomDown"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
+    <com.example.a360safty.view.widget.SettingItemView
+        xmlns:mobilesafe="http://schemas.android.com/apk/res/com.example.a360safty"
+        mobilesafe:desTitle="黑名单拦截设置"
+        mobilesafe:desOff="黑名单拦截已关闭"
+        mobilesafe:desOn="黑名单拦截已开启"
+        android:id="@+id/siv_black_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </com.example.a360safty.view.widget.SettingItemView>
+
+    <com.example.a360safty.view.widget.SettingItemView
+        xmlns:mobilesafe="http://schemas.android.com/apk/res/com.example.a360safty"
+        mobilesafe:desTitle="程序锁设置"
+        mobilesafe:desOff="程序锁已关闭"
+        mobilesafe:desOn="程序锁已开启"
+        android:id="@+id/siv_app_lock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </com.example.a360safty.view.widget.SettingItemView>
+
+
 
 </LinearLayout>

@@ -10,12 +10,22 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/360safty" />
+            <option value="$PROJECT_DIR$/firstapplication" />
+            <option value="$PROJECT_DIR$/fourapplication" />
+            <option value="$PROJECT_DIR$/myapplication" />
+            <option value="$PROJECT_DIR$/secondapplication" />
+            <option value="$PROJECT_DIR$/thirdapplication" />
           </set>
         </option>
         <option name="myModules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/360safty" />
+            <option value="$PROJECT_DIR$/firstapplication" />
+            <option value="$PROJECT_DIR$/fourapplication" />
+            <option value="$PROJECT_DIR$/myapplication" />
+            <option value="$PROJECT_DIR$/secondapplication" />
+            <option value="$PROJECT_DIR$/thirdapplication" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -16,4 +16,10 @@
         <attr name="arc_bottom_text" format="string" />
         <attr name="arc_bottom_text_size" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="SettingItemView"><!--SettingItemView申明控件,内部可以包含自定义属性-->
+        <attr name="desTitle" format="string"/><!--标题描述属性-->
+        <attr name="desOff" format="string"/><!--关闭更新属性-->
+        <attr name="desOn" format="string"/><!--开启更新属性-->
+    </declare-styleable>
 </resources>

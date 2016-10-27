@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:background="@color/popu"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+    <TextView
+        android:gravity="center"
+        android:text="卸载"
+        android:id="@+id/tv_uninstall"
+        android:drawableTop="@mipmap/oopic_un_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_marginLeft="5dp"
+        android:gravity="center"
+        android:text="启动"
+        android:id="@+id/tv_start"
+        android:drawableTop="@mipmap/ooopic_start_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_marginLeft="5dp"
+        android:gravity="center"
+        android:text="分享"
+        android:id="@+id/tv_share"
+        android:drawableTop="@mipmap/ooopic_share_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+</LinearLayout>

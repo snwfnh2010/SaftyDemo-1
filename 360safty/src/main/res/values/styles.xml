@@ -14,6 +14,12 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <style name="NoTitle_FullScreen" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <style name="LLStyle">
         <item name="android:orientation">vertical</item>
         <item name="android:layout_width">0dp</item>

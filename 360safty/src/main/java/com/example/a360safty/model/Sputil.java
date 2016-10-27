@@ -22,4 +22,22 @@ public class SpUtil {
         }
         return sSharedPreferences.getString(key,value);
     }
+
+    public static void putBoolean(Context context,String key,boolean value){
+        if(sSharedPreferences == null){
+            sSharedPreferences = context.getSharedPreferences("config", Context.MODE_PRIVATE);
+        }
+        sSharedPreferences.edit().putBoolean(key, value).commit();
+    }
+
+    public static boolean getBoolean(Context context,String key,boolean defValue){
+        if(sSharedPreferences == null){
+            sSharedPreferences = context.getSharedPreferences("config", Context.MODE_PRIVATE);
+        }
+        return sSharedPreferences.getBoolean(key, defValue);
+    }
+
+
+
+
 }

@@ -8,6 +8,11 @@
     <color name="bottom_Background">#f5f5f5</color>
     <color name="bottomDown">#a7a7a7</color>
     <color name="text_nomal">#0BBB09</color>
+    <color name="text_nomal1">#028c00</color>
     <color name="white">#ffffff</color>
     <color name="red">#ff4043</color>
+    <color name="line">#a7a7a7</color>
+    <color name="popu">#3fb59f</color>
+    <color name="grey">#a7a7a7</color>
+
 </resources>

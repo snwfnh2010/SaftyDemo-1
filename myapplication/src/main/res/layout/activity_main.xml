@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   android:padding="10dp"
+    android:orientation="horizontal"
+    tools:context="com.example.myapplication.MainActivity">
+
     <fragment
-        android:name="com.example.myapplication.FirstFragment"
-        android:id="@+id/fragment1"
+        android:id="@+id/fragmentA"
         android:layout_weight="1"
         android:layout_width="0dp"
+        android:name="com.example.myapplication.FragmentA"
         android:layout_height="match_parent"/>
     <fragment
-        android:name="com.example.myapplication.SecondFragment"
-        android:id="@+id/fragment2"
+        android:id="@+id/fragmentB"
         android:layout_weight="1"
         android:layout_width="0dp"
+        android:name="com.example.myapplication.FragmentB"
         android:layout_height="match_parent"/>
-
-
-
 </LinearLayout>

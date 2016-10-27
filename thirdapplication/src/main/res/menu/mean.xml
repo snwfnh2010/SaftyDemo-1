@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_lock"
+          android:icon="@mipmap/locked"
+          android:title="@string/lock"/>
+
+    <item android:id="@+id/action_unlock"
+          android:icon="@mipmap/unlocked"
+          android:title="@string/unlock"/>
+
+
+</menu>

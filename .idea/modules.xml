@@ -4,6 +4,11 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/360safty/360safty.iml" filepath="$PROJECT_DIR$/360safty/360safty.iml" />
       <module fileurl="file://$PROJECT_DIR$/SaftyDemo.iml" filepath="$PROJECT_DIR$/SaftyDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/firstapplication/firstapplication.iml" filepath="$PROJECT_DIR$/firstapplication/firstapplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fourapplication/fourapplication.iml" filepath="$PROJECT_DIR$/fourapplication/fourapplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/myapplication/myapplication.iml" filepath="$PROJECT_DIR$/myapplication/myapplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/secondapplication/secondapplication.iml" filepath="$PROJECT_DIR$/secondapplication/secondapplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/thirdapplication/thirdapplication.iml" filepath="$PROJECT_DIR$/thirdapplication/thirdapplication.iml" />
     </modules>
   </component>
 </project>
