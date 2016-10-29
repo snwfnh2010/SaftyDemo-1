@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <LinearLayout
+        android:background="@color/text_nomal"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_intercept_title"
+            android:drawablePadding="5dp"
+            android:padding="10dp"
+            android:drawableLeft="@mipmap/de"
+            android:textColor="@color/white"
+            android:text="骚扰拦截"
+            android:textSize="25dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:layout_marginLeft="180dp"
+            android:background="@mipmap/icon_plus"
+            android:id="@+id/tv_add_black"
+            android:layout_width="25dp"
+            android:layout_height="25dp"/>
+
+    </LinearLayout>
+    <ListView
+        android:id="@+id/lv_blacknumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
+
+</LinearLayout>

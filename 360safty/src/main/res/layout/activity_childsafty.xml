@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tv_child_title"
+        android:drawablePadding="5dp"
+        android:padding="10dp"
+        android:drawableLeft="@mipmap/de"
+        android:textColor="@color/white"
+        android:text="儿童安全"
+        android:textSize="25dp"
+        android:background="@color/text_nomal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <WebView
+        android:id="@+id/web_view_child"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></WebView>
+
+</LinearLayout>

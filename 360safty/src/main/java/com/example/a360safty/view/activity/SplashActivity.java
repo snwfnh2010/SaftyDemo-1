@@ -8,20 +8,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.a360safty.MainActivity;
 import com.example.a360safty.R;
+import com.example.a360safty.service.BlackNumberService;
 import com.example.a360safty.tools.DBCopyUtil;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Created by snwfnh on 2016/10/17.
@@ -120,6 +113,7 @@ public class SplashActivity  extends Activity implements View.OnClickListener {
         isFirst=mSharedPreferences.getBoolean("isFirst",true);
         mTextView= (TextView) findViewById(R.id.tv_skip);
         mTextView.setOnClickListener(this);
+        startService(new Intent(this, BlackNumberService.class));
 
     }
 

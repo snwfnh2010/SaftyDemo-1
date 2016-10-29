@@ -17,8 +17,10 @@ import android.widget.TextView;
 
 import com.example.a360safty.R;
 import com.example.a360safty.view.activity.AppManageActivity;
+import com.example.a360safty.view.activity.BlackNumberActivity;
 import com.example.a360safty.view.activity.CleanupActivity;
 import com.example.a360safty.view.activity.InterceptActivity;
+import com.example.a360safty.view.activity.TastManagerActivity;
 import com.example.a360safty.view.adapter.GridAdapter;
 
 import java.util.ArrayList;
@@ -98,7 +100,7 @@ public class BodyGuardFragment extends Fragment implements View.OnClickListener,
                 startActivity(intent);
                 break;
             case 1:
-                intent=new Intent(mContext,InterceptActivity.class);
+                intent=new Intent(mContext,BlackNumberActivity.class);
                 startActivity(intent);
                 break;
             case 2:

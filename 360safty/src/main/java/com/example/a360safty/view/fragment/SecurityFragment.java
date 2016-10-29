@@ -13,6 +13,7 @@ import android.widget.GridView;
 import android.widget.RelativeLayout;
 
 import com.example.a360safty.R;
+import com.example.a360safty.view.activity.ChildSaftyActivity;
 import com.example.a360safty.view.activity.PhoneAddressActivity;
 import com.example.a360safty.view.activity.SearchActivity;
 import com.example.a360safty.view.adapter.GridAdapter;
@@ -46,8 +47,8 @@ public class SecurityFragment extends Fragment implements GridView.OnItemClickLi
 
     private void initData() {
         mContext=this.getActivity();
-        icon = new int[]{R.mipmap.tof_p1,R.mipmap.tof_p2,R.mipmap.tof_p3};
-        iconName = new String[]{"归属地查询", "短信备份", "常用号码查询"};
+        icon = new int[]{R.mipmap.tof_p1,R.mipmap.wo,R.mipmap.tof_p3};
+        iconName = new String[]{"归属地查询", "儿童安全", "常用号码查询"};
         mGridAdapter=new GridAdapter(mContext,icon,iconName);
         mGridView.setAdapter(mGridAdapter);
     }
@@ -75,6 +76,8 @@ public class SecurityFragment extends Fragment implements GridView.OnItemClickLi
                 startActivity(intent);
                 break;
             case 1:
+                intent=new Intent(mContext,ChildSaftyActivity.class);
+                startActivity(intent);
                 break;
             case 2:
                 break;

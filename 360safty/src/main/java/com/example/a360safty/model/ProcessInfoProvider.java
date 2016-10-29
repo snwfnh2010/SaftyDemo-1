@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import com.example.a360safty.R;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,20 +19,21 @@ import java.util.List;
  */
 public class ProcessInfoProvider {
 
-    public static int getProcessCount(Context context){
-        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = manager.getRunningAppProcesses();
-        return runningAppProcesses.size();
-    }
+   public static  int getProcessCount(Context context){
+       ActivityManager mManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+       List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = mManager.getRunningAppProcesses();
+       return runningAppProcesses.size();
 
-    public static long getAvailSpace(Context ctx){
-        ActivityManager manager = (ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE);
-        ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
-        manager.getMemoryInfo(memoryInfo);
+   }
+
+    public static long getAvailSpace(Context context){
+        ActivityManager mManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager.MemoryInfo memoryInfo=new ActivityManager.MemoryInfo();
+        mManager.getMemoryInfo(memoryInfo);
         return memoryInfo.availMem;
     }
 
-    public static long getTotalSpace(Context ctx){
+    public static long getTotalSpace(Context context){
         FileReader fileReader  = null;
         BufferedReader bufferedReader = null;
         try {
@@ -62,20 +64,20 @@ public class ProcessInfoProvider {
     }
 
     public static List<ProcessInfo> getProcessInfo(Context context){
-        List<ProcessInfo> processInfoList = new ArrayList<ProcessInfo>();
-        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        PackageManager pm = context.getPackageManager();
-        List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = manager.getRunningAppProcesses();
-        for (ActivityManager.RunningAppProcessInfo info : runningAppProcesses) {
-            ProcessInfo processInfo = new ProcessInfo();
+        List<ProcessInfo> processInfoList=new ArrayList<>();
+        ActivityManager mManager= (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        PackageManager packageManager = context.getPackageManager();
+        List<ActivityManager.RunningAppProcessInfo> runningAppProcess=mManager.getRunningAppProcesses();
+        for (ActivityManager.RunningAppProcessInfo info:runningAppProcess){
+            ProcessInfo processInfo=new ProcessInfo();
             processInfo.packageName = info.processName;
-            android.os.Debug.MemoryInfo[] processMemoryInfo = manager.getProcessMemoryInfo(new int[]{info.pid});
+            android.os.Debug.MemoryInfo[] processMemoryInfo = mManager.getProcessMemoryInfo(new int[]{info.pid});
             android.os.Debug.MemoryInfo memoryInfo = processMemoryInfo[0];
             processInfo.memSize = memoryInfo.getTotalPrivateDirty()*1024;
             try {
-                ApplicationInfo applicationInfo = pm.getApplicationInfo(processInfo.packageName, 0);
-                processInfo.name = applicationInfo.loadLabel(pm).toString();
-                processInfo.drawable = applicationInfo.loadIcon(pm);
+                ApplicationInfo applicationInfo = packageManager.getApplicationInfo(processInfo.packageName, 0);
+                processInfo.name = applicationInfo.loadLabel(packageManager).toString();
+                processInfo.icon = applicationInfo.loadIcon(packageManager);
                 if((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == ApplicationInfo.FLAG_SYSTEM){
                     processInfo.isSystem = true;
                 }else{
@@ -83,7 +85,7 @@ public class ProcessInfoProvider {
                 }
             } catch (PackageManager.NameNotFoundException e) {
                 processInfo.name = info.processName;
-                processInfo.drawable = context.getResources().getDrawable(R.drawable.ic_launcher);
+                processInfo.icon = context.getResources().getDrawable(R.drawable.ic_launcher);
                 processInfo.isSystem = true;
                 e.printStackTrace();
             }
@@ -93,18 +95,7 @@ public class ProcessInfoProvider {
     }
 
     public static void killProcess(Context context,ProcessInfo processInfo) {
-        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        am.killBackgroundProcesses(processInfo.packageName);
-    }
-
-    public static void killAll(Context context) {
-        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = am.getRunningAppProcesses();
-        for (ActivityManager.RunningAppProcessInfo info : runningAppProcesses) {
-            if(info.processName.equals(context.getPackageName())){
-                continue;
-            }
-            am.killBackgroundProcesses(info.processName);
-        }
+        ActivityManager mManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        mManager.killBackgroundProcesses(processInfo.packageName);
     }
 }

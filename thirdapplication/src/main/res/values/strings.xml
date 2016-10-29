@@ -1,7 +1,13 @@
 <resources>
-    <string name="app_name">ThirdApplication</string>
+
     <string name="btn_Add">增加</string>
     <string name="edit_hint_entryCountry">请输入</string>
     <string name="lock">加锁</string>
     <string name="unlock">未加锁</string>
+    <string name="app_name">DrawPassword</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="plz_draw_code">Please draw your code</string>
+    <string name="pwd_setted">Your password is setted!</string>
+    <string name="pwd_correct">Your password is correct.</string>
 </resources>

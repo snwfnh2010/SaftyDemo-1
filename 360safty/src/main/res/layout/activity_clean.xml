@@ -62,40 +62,40 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <TextView
-            android:background="@drawable/gridlist"
+        <Button
+
             android:gravity="center"
-            android:id="@+id/tv_select_all"
+            android:id="@+id/bt_select_all"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="全选"
             android:textSize="20dp" />
 
-        <TextView
-            android:background="@drawable/gridlist"
+        <Button
+
             android:gravity="center"
-            android:id="@+id/tv_select_reverse"
+            android:id="@+id/bt_select_reverse"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="反选"
             android:textSize="20dp" />
 
-        <TextView
-            android:background="@drawable/gridlist"
+        <Button
+
             android:gravity="center"
-            android:id="@+id/tv_clear"
+            android:id="@+id/bt_clear"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="一键清理"
             android:textSize="20dp" />
 
-        <TextView
-            android:background="@drawable/gridlist"
+        <Button
+
             android:gravity="center"
-            android:id="@+id/tv_setting"
+            android:id="@+id/bt_setting"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

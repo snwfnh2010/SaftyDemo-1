@@ -8,83 +8,46 @@ import android.graphics.drawable.Drawable;
 public class ProcessInfo {
 
     public String name;
-    public Drawable drawable;
+    public Drawable icon;
     public long memSize;
-    public boolean isSystem;
     public boolean isCheck;
+    public boolean isSystem;
     public String packageName;
-
-
-    public ProcessInfo() {
-        super();
-    }
-
-    public ProcessInfo(String name, Drawable drawable, long memSize, boolean isSystem, boolean isCheck, String packageName) {
-        this.name = name;
-        this.drawable = drawable;
-        this.memSize = memSize;
-        this.isSystem = isSystem;
-        this.isCheck = isCheck;
-        this.packageName = packageName;
-    }
 
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
-    public Drawable getDrawable() {
-        return drawable;
+    public Drawable getIcon() {
+        return icon;
     }
-
-    public void setDrawable(Drawable drawable) {
-        this.drawable = drawable;
+    public void setIcon(Drawable icon) {
+        this.icon = icon;
     }
-
     public long getMemSize() {
         return memSize;
     }
-
     public void setMemSize(long memSize) {
         this.memSize = memSize;
     }
-
-    public boolean isSystem() {
-        return isSystem;
-    }
-
-    public void setSystem(boolean system) {
-        isSystem = system;
-    }
-
     public boolean isCheck() {
         return isCheck;
     }
-
-    public void setCheck(boolean check) {
-        isCheck = check;
+    public void setCheck(boolean isCheck) {
+        this.isCheck = isCheck;
     }
-
+    public boolean isSystem() {
+        return isSystem;
+    }
+    public void setSystem(boolean isSystem) {
+        this.isSystem = isSystem;
+    }
     public String getPackageName() {
         return packageName;
     }
-
     public void setPackageName(String packageName) {
         this.packageName = packageName;
-    }
-
-    @Override
-    public String toString() {
-        return "ProcessInfo{" +
-                "name='" + name + '\'' +
-                ", drawable=" + drawable +
-                ", memSize=" + memSize +
-                ", isSystem=" + isSystem +
-                ", isCheck=" + isCheck +
-                ", packageName='" + packageName + '\'' +
-                '}';
     }
 }

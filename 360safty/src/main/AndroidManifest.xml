@@ -39,12 +39,16 @@
         </activity>
         <activity android:name=".view.activity.GuideActivity" android:theme="@style/NoTitle_FullScreen"/>
         <activity android:name=".MainActivity"/>
-        <activity android:name=".view.activity.CleanupActivity"/>
-        <activity android:name=".view.activity.InterceptActivity" android:theme="@style/NoTitle">
-    </activity>
+        <activity android:name=".view.activity.CleanupActivity" android:theme="@style/NoTitle"/>
+        <activity android:name=".view.activity.ProcessSettingActivity" android:theme="@style/NoTitle"/>
+        <activity android:name=".view.activity.PassActivity" android:theme="@style/NoTitle"/>
+        <!--<activity android:name=".view.activity.InterceptActivity" android:theme="@style/NoTitle">-->
+    <!--</activity>-->
         <activity android:name=".view.activity.SetupOverActivity"/>
-        <activity android:name=".view.activity.AppManageActivity"/>
+        <activity android:name=".view.activity.BlackNumberActivity" android:theme="@style/NoTitle"/>
+        <activity android:name=".view.activity.AppManageActivity" android:theme="@style/NoTitle"/>
         <activity android:name=".view.activity.SearchActivity" android:theme="@style/NoTitle"/>
+        <activity android:name=".view.activity.ChildSaftyActivity" android:theme="@style/NoTitle"/>
         <activity android:name=".view.activity.PhoneAddressActivity" android:theme="@style/NoTitle"/>
         <activity android:name=".view.activity.EnterPsdActivity" android:theme="@style/NoTitle"/>
         <service android:name=".service.WatchDogService"/>

@@ -14,15 +14,9 @@
         android:background="@color/text_nomal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <EditText
-
-        android:hint="搜索或输入网址"
-        android:singleLine="true"
-        android:id="@+id/et_search"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-       android:layout_marginTop="10dp"
+    <WebView
+        android:id="@+id/web_view_serach"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"></WebView>
 
 </LinearLayout>

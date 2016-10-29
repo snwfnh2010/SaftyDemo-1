@@ -1,76 +1,43 @@
 package com.example.fourapplication;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private TextView mTextView;
-    private Button mButton;
-    private List<Map<String, String>> mList;
+/**
+ * Created by snwfnh on 2016/10/29.
+ */
+public class MainActivity extends Activity {
+    private int mBackKeyPressedTimes = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initDate();
-        setView();
-
-        initView();
-
-
-
-    }
-
-    private void initDate() {
-        String path="http://api.k780.com:88/?app=weather.future&weaid=1&&appkey=10003&sign=b59bc3ef6191eb9f747dd4e83c99f2a4&format=json";
-      new Thread(){
-          @Override
-          public void run() {
-              super.run();
-          }
-      }.start();
-        mList=new ArrayList<>();
-        try {
-            mList=Json.getJSON(path);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    private void initView() {
-        mTextView= (TextView) findViewById(R.id.tv_weather);
-        mButton= (Button) findViewById(R.id.btn_wea);
-        mButton.setOnClickListener(this);
-
-    }
-
-    private void setView() {
         setContentView(R.layout.activity_main);
     }
 
+    // 双击两次Back键盘退出程序
     @Override
-    public void onClick(View v) {
-        StringBuffer sb=new StringBuffer();
-        for (int i=0;i<mList.size();i++) {
-            sb.append(mList.get(i));
+    public void onBackPressed() {
+        if (mBackKeyPressedTimes == 0) {
+            Toast.makeText(this, "再按一次退出程序 ", Toast.LENGTH_SHORT).show();
+            mBackKeyPressedTimes = 1;
+            new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } finally {
+                        mBackKeyPressedTimes = 0;
+                    }
+                }
+            }.start();
+            return;
+        } else {
+            MainActivity.this.finish();
         }
-
-        mTextView.setText(sb.toString());
+        super.onBackPressed();
     }
 }

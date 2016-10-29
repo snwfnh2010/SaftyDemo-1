@@ -14,6 +14,11 @@ import android.os.StatFs;
 import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -66,11 +71,18 @@ public class AppManageActivity extends Activity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setView();
-        initView();
         initTitle();
+        initView();
+
+
+
+
+    }
+
+    @Override
+    protected void onResume() {
         initData();
-
-
+        super.onResume();
     }
 
     private void initData() {
@@ -102,6 +114,23 @@ public class AppManageActivity extends Activity implements View.OnClickListener 
         mContext=this;
         mListView_app = (ListView) findViewById(R.id.lv_app_list);
         tv_des = (TextView) findViewById(R.id.tv_des);
+        mListView_app.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if(mCustomerList!=null && mSystemList!=null){
+                    if (firstVisibleItem>=mCustomerList.size()+1){
+                        tv_des.setText("系统应用("+mSystemList.size()+")");
+                    }else {
+                        tv_des.setText("用户应用("+mCustomerList.size()+")");
+                    }
+                }
+            }
+        });
         mListView_app.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -130,22 +159,41 @@ public class AppManageActivity extends Activity implements View.OnClickListener 
 
 
 
-    private void showPopupWindow(View view) {
-        view = LayoutInflater.from(mContext).inflate(R.layout.popup_item, null);
-        tv_uninstall = (TextView) findViewById(R.id.tv_uninstall);
+    protected void showPopupWindow(View view) {
+        View popupView = View.inflate(this, R.layout.popup_item, null);
+
+        TextView tv_uninstall = (TextView) popupView.findViewById(R.id.tv_uninstall);
+        TextView tv_start = (TextView) popupView.findViewById(R.id.tv_start);
+        TextView tv_share = (TextView) popupView.findViewById(R.id.tv_share);
+
         tv_uninstall.setOnClickListener(this);
-        tv_start = (TextView) findViewById(R.id.tv_start);
         tv_start.setOnClickListener(this);
-        tv_share = (TextView) findViewById(R.id.tv_share);
         tv_share.setOnClickListener(this);
 
-        mPopupWindow = new PopupWindow(view,
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
+        alphaAnimation.setDuration(1000);
+        alphaAnimation.setFillAfter(true);
+
+        ScaleAnimation scaleAnimation = new ScaleAnimation(
+                0, 1,
+                0, 1,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        scaleAnimation.setDuration(1000);
+        alphaAnimation.setFillAfter(true);
+        AnimationSet animationSet = new AnimationSet(true);
+
+        animationSet.addAnimation(alphaAnimation);
+        animationSet.addAnimation(scaleAnimation);
+
+
+        mPopupWindow = new PopupWindow(popupView,
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT, true);
         mPopupWindow.setBackgroundDrawable(new ColorDrawable());
-        mPopupWindow.showAsDropDown(view, 50, -view.getHeight());
 
-
+        mPopupWindow.showAsDropDown(view, 250, -view.getHeight()+50);
+        popupView.startAnimation(animationSet);
     }
 
     private void initTitle() {
