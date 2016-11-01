@@ -44,7 +44,7 @@ public class GuideActivity extends Activity implements ViewPager.OnPageChangeLis
         mViewPager= (ViewPager) this.findViewById(R.id.vp_guide);
         mViewPager.setAdapter(mMyPagerAdapter);
         mViewPager.setPageTransformer(true,new DepthPageTransformer() );
-        mViewPager.setOffscreenPageLimit(mList.size());// 加载缓存的页面个数
+        mViewPager.setOffscreenPageLimit(mList.size());
         mViewPager.setOnPageChangeListener((ViewPager.OnPageChangeListener) this);
 
         mButton = (Button) mList.get(mList.size()-1).findViewById(R.id.btn_ok);

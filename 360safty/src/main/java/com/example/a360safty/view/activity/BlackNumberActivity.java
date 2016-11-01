@@ -198,7 +198,6 @@ public class BlackNumberActivity extends Activity {
         Button bt_submit = (Button) view.findViewById(R.id.bt_submit);
         Button bt_cancel = (Button)view.findViewById(R.id.bt_cancel);
 
-        //监听其选中条目的切换过程
         rg_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {

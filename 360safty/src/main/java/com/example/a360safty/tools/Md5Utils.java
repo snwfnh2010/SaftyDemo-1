@@ -10,9 +10,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public class Md5Utils {
 
-    // first argument is the password need MD5
-    // second argument is algorithm
-    // third argument is separate symbol
+
     public String toMd5(String original, String separator) {
         try {
             String result;
@@ -35,7 +33,7 @@ public class Md5Utils {
         return hexString.toString();
     }
 
-    /** Calculate MD5 sum of a file */
+
     static final public String calcMD5(File file){
         try{
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -60,9 +58,7 @@ public class Md5Utils {
         return ""+file.length();
     }
 
-    /**
-     * Convert an array of bytes to a string of hexadecimal numbers
-     */
+
     static final private String bytesToHexString(byte[] array) {
         StringBuffer res = new StringBuffer();
 

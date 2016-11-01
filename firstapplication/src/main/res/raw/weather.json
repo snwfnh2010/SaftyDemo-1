@@ -1,0 +1,23 @@
+{
+   "errNum": 0,
+   "errMsg": "success",
+   "retData": {
+      "city": "接口已经停用",
+      "pinyin": "apistore.baidu.com",
+      "citycode": "000000000",
+      "date": "201616-05-12",
+      "time": "10:00",
+      "postCode": "0000000",
+      "longitude": 0,
+      "latitude": 0,
+      "altitude": "0",
+      "weather": "多云",
+      "temp": "0",
+      "l_tmp": "0",
+      "h_tmp": "0",
+      "WD": "北风",
+      "WS": "接口已经停用，请访问APIStore.baidu.com查找对应接口",
+      "sunrise": "00:00",
+      "sunset": "00:00"
+   }
+}

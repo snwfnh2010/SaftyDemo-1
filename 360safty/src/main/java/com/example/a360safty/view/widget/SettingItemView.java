@@ -34,7 +34,7 @@ public class SettingItemView extends RelativeLayout {
         this(context,null);
 
     }
-    //单独抽取出来的 xml--->view
+
     private void initUI(Context context) {
         View.inflate(context, R.layout.seting_item_view, this);
 

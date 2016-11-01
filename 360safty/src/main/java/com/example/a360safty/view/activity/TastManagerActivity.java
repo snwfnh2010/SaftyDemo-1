@@ -47,9 +47,9 @@ public class TastManagerActivity extends Activity {
     private long availMem = 0;
     private long totalMem = 0;
 
-    // 系统进程数据
+
     private List<TaskBean> sysTasks = new CopyOnWriteArrayList<TaskBean>();
-    // 用户进程数据
+
     private List<TaskBean> userTasks = new CopyOnWriteArrayList<TaskBean>();
 
     @Override
@@ -58,11 +58,11 @@ public class TastManagerActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         initData = new InitDataClass();
-        initView();// 初始化界面
+        initView();
 
-        //initData();// 设置数据子线程
 
-        initEvent();// 初始化事件
+
+        initEvent();
     }
 
     @Override
@@ -72,24 +72,21 @@ public class TastManagerActivity extends Activity {
     }
 
     private void initEvent() {
-        // 给listview加滚动事件
+
         lv_taskdatas.setOnScrollListener(new AbsListView.OnScrollListener() {
 
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                // TODO Auto-generated method stub
 
             }
 
-            /**
-             * 按住滑动
-             */
+
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem,
                                  int visibleItemCount, int totalItemCount) {
-                // 如果显示用户进程 标签要显示用户进程的tag
+
                 if (firstVisibleItem <= userTasks.size()) {
-                    // 用户的tag
+
                     tv_list_tag.setText("用户进程(" + userTasks.size() + ")");
                 } else {
                     tv_list_tag.setText("系统进程(" + sysTasks.size() + ")");
@@ -99,12 +96,7 @@ public class TastManagerActivity extends Activity {
         });
     }
 
-    /**
-     * 进程数据的适配器
-     *
-     * @author Administrator
-     *
-     */
+
     private class MyAdapter extends BaseAdapter {
 
         @Override
@@ -140,24 +132,24 @@ public class TastManagerActivity extends Activity {
         public View getView(int position, View convertView, ViewGroup parent) {
             System.out.println("每次" + position + ":" + convertView);
             if (position == 0) {
-                // 用户apk的标签
+
                 TextView tv_userTable = new TextView(getApplicationContext());
                 tv_userTable.setText("个人软件(" + userTasks.size() + ")");
-                tv_userTable.setTextColor(Color.WHITE);// 文字为白色
-                tv_userTable.setBackgroundColor(Color.GRAY);// 文字背景为灰色
+                tv_userTable.setTextColor(Color.WHITE);
+                tv_userTable.setBackgroundColor(Color.GRAY);
                 return tv_userTable;
             } else if (position == userTasks.size() + 1) {
-                // 系统apk标签
+
                 TextView tv_userTable = new TextView(getApplicationContext());
                 tv_userTable.setText("系统软件(" + sysTasks.size() + ")");
-                tv_userTable.setTextColor(Color.WHITE);// 文字为白色
-                tv_userTable.setBackgroundColor(Color.GRAY);// 文字背景为灰色
+                tv_userTable.setTextColor(Color.WHITE);
+                tv_userTable.setBackgroundColor(Color.GRAY);
                 return tv_userTable;
             } else {
-                // 界面的缓存
+
                 ViewHolder holder = null;
 
-                // 判断是否存在缓存
+
                 if (convertView != null
                         && convertView instanceof RelativeLayout) {
                     holder = (ViewHolder) convertView.getTag();
@@ -174,11 +166,11 @@ public class TastManagerActivity extends Activity {
                             .findViewById(R.id.tv_taskmanager_listview_item_memsize);
                     holder.cb_checked = (CheckBox) convertView
                             .findViewById(R.id.tv_taskmanager_listview_item_checked);
-                    // 绑定tag
+
                     convertView.setTag(holder);
                 }
 
-                //bean = getItem(position);
+
                 final TaskBean bean = getItem(position);
 
                 final ViewHolder mHolder = holder;
@@ -188,45 +180,42 @@ public class TastManagerActivity extends Activity {
                     @Override
                     public void onClick(View v) {
                         if (bean.getPackName().equals(getPackageName())) {
-                            // 自己
+
                             mHolder.cb_checked.setChecked(false);
                         }
-                        // 设置复选框的反选操作
+
                         mHolder.cb_checked.setChecked(!mHolder.cb_checked
                                 .isChecked());
                     }
                 });
 
-                // 设置数据
-                holder.iv_icon.setImageDrawable(bean.getIcon());// 设置图标
 
-                // 设置占用的内存大小
+                holder.iv_icon.setImageDrawable(bean.getIcon());
+
+
                 holder.tv_memsize.setText(Formatter.formatFileSize(
                         getApplicationContext(), bean.getMemSize()));
 
-                holder.tv_title.setText(bean.getName());// 设置名字
+                holder.tv_title.setText(bean.getName());
 
-                // 记录复选框的状态,记录bean中
 
-                // 给复选框加事件，记录复选框的状态
                 holder.cb_checked
                         .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
                             @Override
                             public void onCheckedChanged(
                                     CompoundButton buttonView, boolean isChecked) {
-                                // 记录复选框的状态
+
                                 bean.setChecked(isChecked);
                             }
                         });
 
-                // 从bean取出复选框的状态显示
+
                 holder.cb_checked.setChecked(bean.isChecked());
 
-                // 判断是不是自己,如果是自己让checkbox隐藏
+
                 if (bean.getPackName().equals(getPackageName())) {
-                    // 显示的是自己
-                    // 隐藏复选框
+
                     holder.cb_checked.setVisibility(View.GONE);
                 } else {
                     holder.cb_checked.setVisibility(View.VISIBLE);
@@ -234,33 +223,31 @@ public class TastManagerActivity extends Activity {
 
                 return convertView;
             }
-        }// end getView
-
-    }// end class adapter
-
+        }
+    }
     private class ViewHolder {
-        ImageView iv_icon;// 图标
-        TextView tv_title; // 名字
-        TextView tv_memsize;// 占用内存大小
-        CheckBox cb_checked;// 是否选择
+        ImageView iv_icon;
+        TextView tv_title;
+        TextView tv_memsize;
+        CheckBox cb_checked;
     }
 
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
-                case LOADING:// 加载数据进程显示
+                case LOADING:
                     pb_loading.setVisibility(View.VISIBLE);
                     lv_taskdatas.setVisibility(View.GONE);
                     tv_list_tag.setVisibility(View.GONE);
                     break;
-                case FINISH:// 数据加载完成
+                case FINISH:
                     pb_loading.setVisibility(View.GONE);
                     lv_taskdatas.setVisibility(View.VISIBLE);
                     tv_list_tag.setVisibility(View.VISIBLE);
 
                     setTileMessage();
 
-                    // 数据的通知
+
                     adapter.notifyDataSetChanged();
                     break;
                 default:
@@ -271,7 +258,7 @@ public class TastManagerActivity extends Activity {
 
     };
     private void setTileMessage() {
-        // 设置运行中的进程个数
+
         if (SpUtil.getBoolean(getApplicationContext(), ConstantValue.IS_SYSTEM_VISABLE, false)) {
             tv_tasknumber.setText("运行中的进程:"
                     + (sysTasks.size() + userTasks.size()));

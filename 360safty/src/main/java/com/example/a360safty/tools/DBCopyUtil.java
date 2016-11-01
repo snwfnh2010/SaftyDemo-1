@@ -15,15 +15,15 @@ public class DBCopyUtil {
 
         InputStream in = null;
         FileOutputStream out = null;
-        File file = context.getApplicationContext().getDatabasePath(DBName);   //data/data
+        File file = context.getApplicationContext().getDatabasePath(DBName);
 
         if (!file.exists()) {
-            //判断database目录是否为空
+
             File parent = new File(file.getParent());
             if (!parent.exists()) parent.mkdirs();
 
             try {
-                in = context.getAssets().open(DBName); // 从assets目录下复制
+                in = context.getAssets().open(DBName);
                 out = new FileOutputStream(file.getPath());
                 int length = -1;
                 byte[] buf = new byte[1024];

@@ -17,59 +17,55 @@ import java.util.List;
  * Created by snwfnh on 2016/10/27.
  */
 public class TaskManagerEngine {
-    /**
-     * @return 所有运行中的进程数据
-     */
+
     public static List<TaskBean> getAllRunningTaskInfos(Context context) {
         List<TaskBean> datas = new ArrayList<TaskBean>();
-        // 获取运行中的进程
+
         ActivityManager am = (ActivityManager) context
                 .getSystemService(Context.ACTIVITY_SERVICE);
-        // 获取包管理器
+
         PackageManager pm = context.getPackageManager();
-        // 获取运行中的进程
+
 
         List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = am
                 .getRunningAppProcesses();
 
         for (ActivityManager.RunningAppProcessInfo runningAppProcessInfo : runningAppProcesses) {
             TaskBean bean = new TaskBean();
-            // apk的 包名
-            String processName = runningAppProcessInfo.processName;// 包名
-            // 设置apk的包名
+
+            String processName = runningAppProcessInfo.processName;
+
             bean.setPackName(processName);
 
-            // 获取apk的图标和名字
 
-            //有些进程是无名进程
             PackageInfo packageInfo = null;
             try {
                 packageInfo = pm.getPackageInfo(processName, 0);
             } catch (PackageManager.NameNotFoundException e) {
-                continue;//继续循环 不添加没有名字的进程
+                continue;
 
             }
-            //获取apk的图标
+
             bean.setIcon(packageInfo.applicationInfo.loadIcon(pm));
-            //获取apk的名字
+
             bean.setName(packageInfo.applicationInfo.loadLabel(pm) + "");
 
             if ((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0){
-                //系统apk
+
                 bean.setSystem(true);
             } else {
-                bean.setSystem(false);//用户apk
+                bean.setSystem(false);
             }
 
-            //获取占用的内存大小
+
 
             android.os.Debug.MemoryInfo[] processMemoryInfo = am.getProcessMemoryInfo(new int[]{runningAppProcessInfo.pid});
-            //获取占用内存 以byte单位
-            long totalPrivateDirty = processMemoryInfo[0].getTotalPrivateDirty() * 1024;// 获取运行中占用的内存
+
+            long totalPrivateDirty = processMemoryInfo[0].getTotalPrivateDirty() * 1024;
             bean.setMemSize(totalPrivateDirty);
 
-            datas.add(bean);// 添加一个进程信息
-        } // end for
+            datas.add(bean);
+        }
 
 
         return datas;

@@ -6,12 +6,12 @@ import android.graphics.drawable.Drawable;
  * Created by snwfnh on 2016/10/27.
  */
 public class TaskBean {
-    private boolean isChecked;//是否被选中
-    private Drawable icon;//apk的图标
-    private String name;//apk的名字
-    private String packName;//apk的包名
-    private long memSize;//apk占用的内存大小
-    private boolean isSystem;//是否系统apk
+    private boolean isChecked;
+    private Drawable icon;
+    private String name;
+    private String packName;
+    private long memSize;
+    private boolean isSystem;
     public Drawable getIcon() {
         return icon;
     }

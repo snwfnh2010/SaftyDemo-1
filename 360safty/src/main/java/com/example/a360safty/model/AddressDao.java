@@ -22,14 +22,12 @@ public class AddressDao {
             phone = phone.substring(0,7);
 
             Cursor cursor = db.query("data1", new String[]{"outkey"}, "id = ?", new String[]{phone}, null, null, null);
-            //4,查到即可
+
             if(cursor.moveToNext()){
                 String outkey = cursor.getString(0);
                 Log.i(tag, "outkey = "+outkey);
-                //5,通过data1查询到的结果,作为外键查询data2
                 Cursor indexCursor = db.query("data2", new String[]{"location"}, "id = ?", new String[]{outkey}, null, null, null);
                 if(indexCursor.moveToNext()){
-                    //6,获取查询到的电话归属地
                     mAddress = indexCursor.getString(0);
                     Log.i(tag, "address = "+mAddress);
                 }
@@ -55,7 +53,7 @@ public class AddressDao {
                     mAddress = "本地电话";
                     break;
                 case 11:
-                    //(3+8) 区号+座机号码(外地),查询data2
+
                     String area = phone.substring(1, 3);
                     Cursor cursor = db.query("data2", new String[]{"location"}, "area = ?", new String[]{area}, null, null, null);
                     if(cursor.moveToNext()){
@@ -65,7 +63,7 @@ public class AddressDao {
                     }
                     break;
                 case 12:
-                    //(4+8) 区号(0791(江西南昌))+座机号码(外地),查询data2
+
                     String area1 = phone.substring(1, 4);
                     Cursor cursor1 = db.query("data2", new String[]{"location"}, "area = ?", new String[]{area1}, null, null, null);
                     if(cursor1.moveToNext()){

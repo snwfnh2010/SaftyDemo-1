@@ -1,10 +1,8 @@
 package com.example.a360safty.model;
 
 import android.content.Context;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 /**
  * Created by snwfnh on 2016/10/24.
@@ -22,7 +20,7 @@ public class AppLockOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //创建数据库中的表
+
         db.execSQL(CREAT_APPLOCK);
 
     }
